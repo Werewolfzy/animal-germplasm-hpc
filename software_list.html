@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>已安装软件列表 - HPC平台</title>
+    <style>
+        /* 统一CSS变量 - 与index.html完全一致 */
+        :root {
+            --primary-light: #f0f7ff;
+            --primary: #e6f2ff;
+            --secondary: #d1e8ff;
+            --accent: #3182ce;
+            --accent-dark: #2c5282;
+            --text-dark: #1a365d;
+            --text-light: #4a5568;
+            --border: rgba(49, 130, 206, 0.15);
+            --white: #ffffff;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(49, 130, 206, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(66, 153, 225, 0.3);
+            background: var(--white);
+        }
+        
+        .back-btn:hover {
+            background: var(--primary);
+            border-color: var(--accent);
+        }
+        
+        .page-header {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .stat-card {
+            background: var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .search-container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .search-wrapper {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+            background: var(--white);
+        }
+        
+        .search-box::placeholder {
+            color: var(--text-light);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+            background: linear-gradient(135deg, var(--accent-dark) 0%, #1a365d 100%);
+        }
+        
+        .software-table-container {
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .software-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .software-table th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            white-space: nowrap;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .software-table td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-light);
+            vertical-align: top;
+        }
+        
+        .software-table tr:hover {
+            background: var(--primary);
+        }
+        
+        .software-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .software-name {
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+            font-size: 1.05rem;
+        }
+        
+        .software-link {
+            color: var(--accent);
+            text-decoration: none;
+            word-break: break-all;
+            transition: all 0.2s ease;
+        }
+        
+        .software-link:hover {
+            text-decoration: underline;
+            color: var(--accent-dark);
+        }
+        
+        .software-steps {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: var(--primary-light);
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 1.1rem;
+            background: var(--primary);
+            border-radius: 12px;
+            margin: 1rem;
+            border: 1px dashed var(--border);
+        }
+        
+        .no-results i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            background: var(--white);
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: var(--primary);
+            border-color: var(--accent);
+            color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 3rem 0 1.5rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .footer strong {
+            color: var(--text-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .search-wrapper {
+                flex-direction: column;
+            }
+            
+            .software-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> 返回主界面
+        </a>
+        
+        <div class="page-header">
+            <h1>已安装软件列表</h1>
+            <p class="subtitle">
+                搜索并查看平台已部署的软件及调用方法
+            </p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">62</div>
+                <div class="stat-label">已安装软件</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1</div>
+                <div class="stat-label">module环境</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">15</div>
+                <div class="stat-label">R语言包</div>
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-box" placeholder="搜索软件名称 (例如: bwa, samtools, gatk)...">
+                <button class="btn" onclick="searchSoftware()">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+            <p style="color: var(--text-light); font-size: 0.9rem; text-align: center; margin-top: 0.5rem;">
+                提示：输入软件名称，按回车键或点击搜索按钮
+            </p>
+        </div>
+        
+        <div class="software-table-container">
+            <table class="software-table">
+                <thead>
+                    <tr>
+                        <th>软件名称</th>
+                        <th>官网地址</th>
+                        <th>调用方法</th>
+                    </tr>
+                </thead>
+                <tbody id="softwareTableBody">
+                    <!-- 软件列表将通过JavaScript动态生成 -->
+                </tbody>
+            </table>
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                未找到匹配的软件，请尝试其他关键词
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="tutorial.html" class="nav-link">
+                <i class="fas fa-book-open"></i> 查看教程
+            </a>
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i> 返回主界面
+            </a>
+        </div>
+        
+        <div class="footer">
+            <strong>国家家养动物种质资源库 HPC 平台</strong> | 科研专用 | 版本 v1.2.0<br>
+            技术支持：xxx团队 | 邮箱：xxx@xxx
+        </div>
+    </div>
+
+    <script>
+        // 修改后的软件数据，在每个module load common上面添加source命令
+        const softwareData = [
+            {
+                name: "Admixture",
+                url: "https://dalexander.github.io/admixture/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>admixture --help"
+            },
+            {
+                name: "Augustus",
+                url: "http://bioinf.uni-greifswald.de/augustus/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>augustus --help"
+            },
+            {
+                name: "bcftools",
+                url: "https://samtools.github.io/bcftools/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>bcftools --help"
+            },
+            {
+                name: "BEAGLE",
+                url: "https://faculty.washington.edu/browning/beagle/beagle.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>beagle"
+            },
+            {
+                name: "BEDTools",
+                url: "https://bedtools.readthedocs.io/en/latest/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>bedtools --help"
+            },
+            {
+                name: "BUSCO",
+                url: "https://busco.ezlab.org/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>busco --help"
+            },
+            {
+                name: "BWA",
+                url: "https://github.com/lh3/bwa",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>bwa"
+            },
+            {
+                name: "CellChat",
+                url: "https://github.com/sqjin/CellChat",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(CellChat)"
+            },
+            {
+                name: "celldex",
+                url: "https://bioconductor.org/packages/celldex/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(celldex)"
+            },
+            {
+                name: "CIBERSORT",
+                url: "https://cibersort.stanford.edu/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(CIBERSORT)"
+            },
+            {
+                name: "coloc",
+                url: "https://github.com/chr1swallace/coloc",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(coloc)"
+            },
+            {
+                name: "CuteSV",
+                url: "https://github.com/tjiangHIT/cuteSV",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>cuteSV --help"
+            },
+            {
+                name: "DELLY",
+                url: "https://github.com/dellytools/delly",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>delly --help"
+            },
+            {
+                name: "FastQC",
+                url: "https://www.bioinformatics.babraham.ac.uk/projects/fastqc/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>fastqc --help"
+            },
+            {
+                name: "GATK",
+                url: "https://gatk.broadinstitute.org/hc/en-us",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>gatk --version"
+            },
+            {
+                name: "Gblocks",
+                url: "http://molevol.cmima.csic.es/castresana/Gblocks.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>Gblocks"
+            },
+            {
+                name: "GCTA",
+                url: "https://yanglab.westlake.edu.cn/software/gcta/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>gcta64"
+            },
+            {
+                name: "GlimmerHMM",
+                url: "https://ccb.jhu.edu/software/glimmerhmm/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>glimmerhmm"
+            },
+            {
+                name: "GraphTyper",
+                url: "https://github.com/DecodeGenetics/graphtyper",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>graphtyper --help"
+            },
+            {
+                name: "Haploview",
+                url: "https://www.broadinstitute.org/haploview/haploview",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>haploview"
+            },
+            {
+                name: "hifiasm",
+                url: "https://github.com/chhylp123/hifiasm",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>hifiasm"
+            },
+            {
+                name: "HISAT2",
+                url: "http://daehwankimlab.github.io/hisat2/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>hisat2 --help"
+            },
+            {
+                name: "IMPUTE2",
+                url: "https://mathgen.stats.ox.ac.uk/impute/impute_v2.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>impute2"
+            },
+            {
+                name: "Infernal",
+                url: "http://eddylab.org/infernal/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>cmscan -h"
+            },
+            {
+                name: "Java",
+                url: "https://www.java.com/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>java -help"
+            },
+            {
+                name: "JCVI",
+                url: "https://github.com/tanghaibao/jcvi",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>python -m jcvi.formats.gff"
+            },
+            {
+                name: "Jellyfish",
+                url: "http://www.genome.umd.edu/jellyfish.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>jellyfish"
+            },
+            {
+                name: "KaKs_Calculator",
+                url: "https://sourceforge.net/projects/kakscalculator3/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>KaKs_Calculator -h"
+            },
+            {
+                name: "MAFFT",
+                url: "https://mafft.cbrc.jp/alignment/software/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>mafft --help"
+            },
+            {
+                name: "MASHR",
+                url: "https://github.com/stephenslab/mashr",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(mashr)"
+            },
+            {
+                name: "MatrixEQTL",
+                url: "https://github.com/andreyshabalin/MatrixEQTL",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(MatrixEQTL)"
+            },
+            {
+                name: "mediation",
+                url: "https://cran.r-project.org/web/packages/mediation/index.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(mediation)"
+            },
+            {
+                name: "minigraph",
+                url: "https://github.com/lh3/minigraph",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>minigraph"
+            },
+            {
+                name: "Monocle3",
+                url: "https://cole-trapnell-lab.github.io/monocle3/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(monocle3)"
+            },
+            {
+                name: "MUMmer",
+                url: "https://mummer.sourceforge.net/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>mummer -h"
+            },
+            {
+                name: "MUSCLE",
+                url: "https://www.drive5.com/muscle/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>muscle -help"
+            },
+            {
+                name: "OrthoFinder",
+                url: "https://github.com/davidemms/OrthoFinder",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>orthofinder -h"
+            },
+            {
+                name: "PAML",
+                url: "http://abacus.gene.ucl.ac.uk/software/paml.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>PAML 包含多个程序，如 codeml, baseml"
+            },
+            {
+                name: "pbsv",
+                url: "https://github.com/PacificBiosciences/pbsv",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>pbsv --help"
+            },
+            {
+                name: "PCAForQTL",
+                url: "https://github.com/StoreyLab/pca-for-qtl",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>library(PCAForQTL)"
+            },
+            {
+                name: "Perl",
+                url: "https://www.perl.org/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>perl -h"
+            },
+            {
+                name: "Picard",
+                url: "https://broadinstitute.github.io/picard/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>picard"
+            },
+            {
+                name: "Pilon",
+                url: "https://github.com/broadinstitute/pilon",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>pilon --help"
+            },
+            {
+                name: "PLINK",
+                url: "https://www.cog-genomics.org/plink/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>plink --help"
+            },
+            {
+                name: "plink2R",
+                url: "https://github.com/gabraham/plink2R",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>library(plink2R)"
+            },
+            {
+                name: "pySCENIC",
+                url: "https://github.com/aertslab/pySCENIC",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>pyscenic"
+            },
+            {
+                name: "Python",
+                url: "https://www.python.org/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>python --help"
+            },
+            {
+                name: "R",
+                url: "https://www.r-project.org/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R --help"
+            },
+            {
+                name: "RagTag",
+                url: "https://github.com/malonge/RagTag",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>ragtag.py"
+            },
+            {
+                name: "SAMtools",
+                url: "https://www.htslib.org/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>samtools --help"
+            },
+            {
+                name: "scDaPars",
+                url: "https://github.com/ylab-hi/scDaPars",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(scDaPars)"
+            },
+            {
+                name: "SCENIC",
+                url: "https://github.com/aertslab/SCENIC",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(SCENIC)"
+            },
+            {
+                name: "scVelo",
+                url: "https://scvelo.readthedocs.io/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>python<br>import scvelo"
+            },
+            {
+                name: "Seurat",
+                url: "https://satijalab.org/seurat/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(Seurat)"
+            },
+            {
+                name: "smoove",
+                url: "https://github.com/brentp/smoove",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>smoove --help"
+            },
+            {
+                name: "Sniffles2",
+                url: "https://github.com/fritzsedlazeck/Sniffles",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>sniffles --help"
+            },
+            {
+                name: "snpEff",
+                url: "https://pcingola.github.io/SnpEff/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>snpEff"
+            },
+            {
+                name: "SNPRelate",
+                url: "https://bioconductor.org/packages/SNPRelate/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>library(SNPRelate)"
+            },
+            {
+                name: "SpliceAI",
+                url: "https://github.com/Illumina/SpliceAI",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>spliceai --help"
+            },
+            {
+                name: "SRA Toolkit",
+                url: "https://github.com/ncbi/sra-tools",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>fastq-dump --help"
+            },
+            {
+                name: "STAR",
+                url: "https://github.com/alexdobin/STAR",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>STAR --help"
+            },
+            {
+                name: "StringTie",
+                url: "https://ccb.jhu.edu/software/stringtie/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>stringtie --help"
+            },
+            {
+                name: "SURVIVOR",
+                url: "https://github.com/fritzsedlazeck/SURVIVOR",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>SURVIVOR --help"
+            },
+            {
+                name: "SuSiE",
+                url: "https://github.com/stephenslab/susieR",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(susieR)"
+            },
+            {
+                name: "SVIM",
+                url: "https://github.com/eldariont/svim",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>svim --help"
+            },
+            {
+                name: "TensorQTL",
+                url: "https://github.com/broadinstitute/tensorqtl",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>python<br>import tensorqtl"
+            },
+            {
+                name: "TransDecoder",
+                url: "https://github.com/TransDecoder/TransDecoder",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>TransDecoder.LongOrfs -h"
+            },
+            {
+                name: "TRF",
+                url: "https://tandem.bu.edu/trf/trf.html",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>trf --help"
+            },
+            {
+                name: "Trimmomatic",
+                url: "http://www.usadellab.org/projects.php?tool=trimmomatic",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>trimmomatic -version"
+            },
+            {
+                name: "tRNAscan-SE",
+                url: "http://lowelab.ucsc.edu/tRNAscan-SE/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>tRNAscan-SE -h"
+            },
+            {
+                name: "VCFtools",
+                url: "https://vcftools.github.io/",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>vcftools --help"
+            },
+            {
+                name: "velocyto.R",
+                url: "https://github.com/velocyto-team/velocyto.R",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>R<br>library(velocyto.R)"
+            },
+            {
+                name: "vg",
+                url: "https://github.com/vgteam/vg",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>vg help"
+            },
+            {
+                name: "yak",
+                url: "https://github.com/lh3/yak",
+                steps: "source /var/ty-root/users/software/miniconda3/bin/activate<br>module load common<br>yak"
+            }
+        ];
+
+        // 页面加载时初始化软件列表
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSoftwareTable(softwareData);
+            
+            // 更新软件数量统计
+            document.querySelector('.stat-value').textContent = softwareData.length;
+            
+            // 统计R语言包数量
+            const rPackages = softwareData.filter(software => 
+                software.steps.includes('R<br>library(') || 
+                software.steps.includes('R<br>BiocManager::') ||
+                software.name === 'R'
+            ).length;
+            document.querySelectorAll('.stat-value')[2].textContent = rPackages;
+            
+            // 添加回车键搜索支持
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchSoftware();
+                }
+            });
+        });
+
+        // 渲染软件表格
+        function renderSoftwareTable(softwares) {
+            const tableBody = document.getElementById('softwareTableBody');
+            const noResults = document.getElementById('noResults');
+            
+            tableBody.innerHTML = '';
+            
+            if(softwares.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            softwares.forEach(software => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td class="software-name">${software.name}</td>
+                    <td><a href="${software.url}" target="_blank" class="software-link">${software.url}</a></td>
+                    <td class="software-steps">${software.steps}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // 搜索软件
+        function searchSoftware() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if(!searchTerm) {
+                renderSoftwareTable(softwareData);
+                return;
+            }
+            
+            const filteredSoftware = softwareData.filter(software => 
+                software.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderSoftwareTable(filteredSoftware);
+        }
+    </script>
+</body>
+</html>

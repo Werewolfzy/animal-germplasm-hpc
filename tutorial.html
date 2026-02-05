@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平台使用教程 - HPC平台</title>
+    <style>
+        /* 统一CSS变量 - 与index.html完全一致 */
+        :root {
+            --primary-light: #f0f7ff;
+            --primary: #e6f2ff;
+            --secondary: #d1e8ff;
+            --accent: #3182ce;
+            --accent-dark: #2c5282;
+            --text-dark: #1a365d;
+            --text-light: #4a5568;
+            --border: rgba(49, 130, 206, 0.15);
+            --white: #ffffff;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(49, 130, 206, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .main-content {
+            flex: 1; /* 占满剩余空间 */
+            min-width: 0; /* 防止flex项目溢出 */
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(66, 153, 225, 0.3);
+            background: var(--white);
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            border-color: var(--accent);
+        }
+
+        .page-header {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .tutorial-content {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .tutorial-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tutorial-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .tutorial-section h2 {
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .tutorial-section h2 i {
+            color: var(--accent-dark);
+        }
+
+        .tutorial-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        .tutorial-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .tutorial-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-block pre {
+            color: #d4d4d4;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+        }
+
+        .code-block .command {
+            color: #9cdcfe;
+        }
+
+        .code-block .path {
+            color: #ce9178;
+        }
+
+        .code-block .keyword {
+            color: #c586c0;
+        }
+
+        .image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+            background: var(--primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-container .caption {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.8rem;
+            font-style: italic;
+        }
+
+        .alert {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-left: 4px solid #ed8936;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .alert i {
+            color: #ed8936;
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .alert p {
+            margin: 0;
+            color: #744210;
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            background: var(--white);
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+            border-color: var(--accent);
+            color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .nav-link i {
+            margin-right: 0.3rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 0 1.5rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .footer strong {
+            color: var(--text-dark);
+        }
+
+        /* 目录样式 - 修改为固定小宽度 */
+        .toc-container {
+            width: 220px; /* 固定小宽度 */
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            flex-shrink: 0; /* 防止缩小 */
+        }
+
+        .toc-title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .toc-item.active {
+            border-left-color: var(--accent);
+            background: var(--primary-light);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .toc-link {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem; /* 稍小字号 */
+            white-space: nowrap; /* 防止换行 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: var(--accent);
+            background: var(--primary);
+        }
+
+        .toc-item.active .toc-link {
+            color: var(--accent-dark);
+            font-weight: 600;
+        }
+
+        .toc-link i {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .toc-back-to-top {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .toc-back-to-top a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: var(--primary);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .toc-back-to-top a:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* 响应式设计 - 在小屏幕上隐藏目录 */
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none; /* 在中等屏幕上隐藏目录 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            .page-header {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tutorial-content {
+                padding: 1.5rem;
+            }
+
+            .tutorial-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 主要内容区域 - 占满剩余空间 -->
+        <div class="main-content">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回主界面
+            </a>
+
+            <div class="page-header">
+                <h1>平台使用教程</h1>
+                <p class="subtitle">
+                    详细指导如何使用国家家养动物种质资源库HPC平台进行科研计算
+                </p>
+            </div>
+
+            <div class="tutorial-content">
+                <!-- 新增：新用户注册部分 -->
+                <div class="tutorial-section" id="section-register">
+                    <h2><i class="fas fa-user-plus"></i> 一、新用户注册</h2>
+                    
+                    <p><strong>1. 访问登录注册界面</strong></p>
+                    <p>新用户请访问以下地址进入登录注册界面：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="command">访问地址：</span><span class="path">http://10.11.29.20/login</span></pre>
+                    </div>
+                    
+                    <p>访问该地址后，您将看到平台的登录注册页面：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/新用户注册.png" alt="新用户注册界面">
+                        <div class="caption">图1：新用户注册登录界面</div>
+                    </div>
+                    
+                    <p><strong>2. 填写注册信息</strong></p>
+                    <p>点击注册按钮后，需要填写以下信息：</p>
+                    <ul>
+                        <li><strong>用户名：</strong>用于登录平台的唯一标识</li>
+                        <li><strong>密码：</strong>设置登录密码（建议使用强密码）</li>
+                        <li><strong>姓名：</strong>您的真实姓名</li>
+                        <li><strong>手机号：</strong>用于接收重要通知</li>
+                        <li><strong>邮箱：</strong>用于验证和接收系统通知</li>
+                    </ul>
+                    
+                    <p>所有信息填写完毕后，点击提交注册申请：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/新用户注册2.png" alt="新用户注册表单">
+                        <div class="caption">图2：新用户注册信息填写界面</div>
+                    </div>
+                    
+                    <div class="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <p><strong>重要提示：</strong> 提交注册信息后，需要等待管理员审核。审核通过后，您才能使用账户登录平台。</p>
+                    </div>
+
+                </div>
+
+                <!-- 修改后的：用户登录部分 -->
+                <div class="tutorial-section" id="section1">
+                    <h2><i class="fas fa-sign-in-alt"></i> 二、用户登录</h2>
+                    
+                    <p><strong>1. 访问登录界面</strong></p>
+                    <p>用户访问以下地址进入登录界面，输入用户名和密码登录平台：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="command">访问地址：</span><span class="path">http://10.11.29.20/login</span></pre>
+                    </div>
+                    
+                    <p><strong>2. 查看用户信息</strong></p>
+                    <p>登录成功后，首页界面可以查看当前账号的简略信息，包括账户状态、使用情况等：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/用户登录01.png" alt="用户登录后首页界面">
+                        <div class="caption">图3：用户登录后首页界面，显示账户简略信息</div>
+                    </div>
+                    
+                    <p><strong>3. 切换到HPC工作台</strong></p>
+                    <p>点击页面左上角的9个点（应用菜单），选择切换到HPC工作台：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/用户登录02.png" alt="点击9个点菜单">
+                        <div class="caption">图4：点击左上角9个点打开应用菜单</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <img src="fig/用户登录03.png" alt="HPC工作台界面">
+                        <div class="caption">图5：HPC工作台界面</div>
+                    </div>
+                    
+                    <p><strong>4. 订阅所需软件</strong></p>
+                    <p>在HPC工作台中，点击"订阅更多"按钮，订阅您需要使用的软件：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/用户登录04.png" alt="订阅软件界面">
+                        <div class="caption">图6：点击"订阅更多"按钮订阅所需软件</div>
+                    </div>
+                    
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>提示：</strong> 首次使用平台时，请先订阅您需要的软件模块，然后才能在计算任务中使用这些软件。</p>
+                    </div>
+                </div>
+
+                <div class="tutorial-section" id="section2">
+                    <h2><i class="fas fa-tasks"></i> 三、提交计算任务</h2>
+                    <p>使用Slurm作业调度系统提交任务。示例：提交一个基因组比对任务。</p>
+
+                    <div class="code-block">
+                        <pre><span class="keyword">#!/bin/bash</span>
+<span class="comment">#SBATCH --job-name=genome_alignment</span>
+<span class="comment">#SBATCH --partition=compute</span>
+<span class="comment">#SBATCH --nodes=1</span>
+<span class="comment">#SBATCH --ntasks-per-node=8</span>
+<span class="comment">#SBATCH --time=12:00:00</span>
+<span class="comment">#SBATCH --output=alignment_%j.out</span>
+
+<span class="command">module</span> <span class="keyword">load</span> bwa/0.7.17
+<span class="command">module</span> <span class="keyword">load</span> samtools/1.14
+
+<span class="command">bwa</span> <span class="keyword">mem</span> -t <span class="path">8</span> reference.fasta sample_R1.fastq.gz sample_R2.fastq.gz | \
+<span class="command">samtools</span> <span class="keyword">sort</span> -o aligned.bam -</pre>
+                    </div>
+
+                    <p>提交任务命令：</p>
+                    <div class="code-block">
+                        <pre><span class="command">sbatch</span> alignment_job.sh</pre>
+                    </div>
+
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>提示：</strong> 任务提交后，系统会返回一个作业ID，用于后续监控和管理。</p>
+                    </div>
+                </div>
+
+                <div class="tutorial-section" id="section3">
+                    <h2><i class="fas fa-database"></i> 四、数据管理</h2>
+                    <p>平台提供共享存储系统，请遵循以下数据管理规范：</p>
+
+                    <div class="code-block">
+                        <pre><span class="comment"># 查看存储使用情况</span>
+<span class="command">df</span> -h
+
+<span class="comment"># 查看目录大小</span>
+<span class="command">du</span> -sh /data/germplasm/results/your_project/
+
+<span class="comment"># 清理临时文件</span>
+<span class="command">rm</span> -rf /scratch/$USER/*</pre>
+                    </div>
+
+                    <p><strong>目录结构：</strong></p>
+                    <ul>
+                        <li><code>/data/germplasm/raw/</code> - 原始数据存储</li>
+                        <li><code>/data/germplasm/results/</code> - 分析结果存储</li>
+                        <li><code>/scratch/$USER/</code> - 临时文件存储</li>
+                    </ul>
+                </div>
+
+                <div class="tutorial-section" id="section4">
+                    <h2><i class="fas fa-cogs"></i> 五、软件环境管理</h2>
+                    <p>使用环境模块系统加载所需软件：</p>
+
+                    <div class="code-block">
+                        <pre><span class="comment"># 查看可用软件模块</span>
+<span class="command">module</span> avail
+
+<span class="comment"># 加载特定软件</span>
+<span class="command">module</span> <span class="keyword">load</span> gcc/9.3.0
+<span class="command">module</span> <span class="keyword">load</span> python/3.8.6
+
+<span class="comment"># 查看已加载模块</span>
+<span class="command">module</span> list
+
+<span class="comment"># 卸载模块</span>
+<span class="command">module</span> <span class="keyword">unload</span> python</pre>
+                    </div>
+                </div>
+
+                <div class="tutorial-section" id="section5">
+                    <h2><i class="fas fa-tachometer-alt"></i> 六、作业监控与管理</h2>
+                    <p>使用Slurm命令监控和管理作业：</p>
+
+                    <div class="code-block">
+                        <pre><span class="comment"># 查看所有作业</span>
+<span class="command">squeue</span> -u $USER
+
+<span class="comment"># 查看特定作业详情</span>
+<span class="command">scontrol</span> show job <span class="path">作业ID</span>
+
+<span class="comment"># 取消作业</span>
+<span class="command">scancel</span> <span class="path">作业ID</span>
+
+<span class="comment"># 查看作业历史</span>
+<span class="command">sacct</span> -u $USER --format=JobID,JobName,Partition,State,Elapsed</pre>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="https://via.placeholder.com/800x400/2c5282/ffffff?text=Slurm+Job+Monitoring" alt="作业监控">
+                        <div class="caption">图7：使用squeue命令监控作业状态</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a href="software_list.html" class="nav-link">
+                    <i class="fas fa-server"></i> 查看软件列表
+                </a>
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> 返回主界面
+                </a>
+            </div>
+
+            <div class="footer">
+                <strong>国家家养动物种质资源库 HPC 平台</strong> | 科研专用 | 版本 v1.2.0<br>
+                技术支持：xxx团队 | 邮箱：xxx@xxx
+            </div>
+        </div>
+
+        <!-- 目录容器 - 只占用小部分宽度 -->
+        <div class="toc-container">
+            <div class="toc-title">
+                <i class="fas fa-list"></i> 快速导航
+            </div>
+            <ul class="toc-list">
+                <li class="toc-item" data-target="section-register">
+                    <a href="#section-register" class="toc-link">
+                        <i class="fas fa-user-plus"></i> 新用户注册
+                    </a>
+                </li>
+                <li class="toc-item" data-target="section1">
+                    <a href="#section1" class="toc-link">
+                        <i class="fas fa-sign-in-alt"></i> 用户登录
+                    </a>
+                </li>
+                <li class="toc-item" data-target="section2">
+                    <a href="#section2" class="toc-link">
+                        <i class="fas fa-tasks"></i> 提交计算任务
+                    </a>
+                </li>
+                <li class="toc-item" data-target="section3">
+                    <a href="#section3" class="toc-link">
+                        <i class="fas fa-database"></i> 数据管理
+                    </a>
+                </li>
+                <li class="toc-item" data-target="section4">
+                    <a href="#section4" class="toc-link">
+                        <i class="fas fa-cogs"></i> 软件环境管理
+                    </a>
+                </li>
+                <li class="toc-item" data-target="section5">
+                    <a href="#section5" class="toc-link">
+                        <i class="fas fa-tachometer-alt"></i> 作业监控与管理
+                    </a>
+                </li>
+            </ul>
+            <div class="toc-back-to-top">
+                <a href="#" id="back-to-top">
+                    <i class="fas fa-arrow-up"></i> 返回顶部
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 目录功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            const sections = document.querySelectorAll('.tutorial-section');
+            const backToTop = document.getElementById('back-to-top');
+
+            // 高亮当前章节
+            function highlightCurrentSection() {
+                let currentSection = '';
+                const scrollPosition = window.scrollY + 100; // 偏移量确保在正确位置触发
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.id;
+                    }
+                });
+
+                // 更新目录高亮
+                tocItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-target') === currentSection) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            // 平滑滚动到目标位置
+            function smoothScrollTo(targetId) {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            // 为目录项添加点击事件
+            tocItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    smoothScrollTo(targetId);
+                });
+            });
+
+            // 返回顶部功能
+            if (backToTop) {
+                backToTop.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 监听滚动事件，更新高亮
+            window.addEventListener('scroll', highlightCurrentSection);
+
+            // 初始调用，确保页面加载时高亮正确
+            highlightCurrentSection();
+        });
+    </script>
+</body>
+</html>

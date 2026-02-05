@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国家家养动物种质资源库HPC平台</title>
+    <style>
+        /* 统一CSS变量 - 所有页面共用 */
+        :root {
+            --primary-light: #f0f7ff;
+            --primary: #e6f2ff;
+            --secondary: #d1e8ff;
+            --accent: #3182ce;
+            --accent-dark: #2c5282;
+            --text-dark: #1a365d;
+            --text-light: #4a5568;
+            --border: rgba(49, 130, 206, 0.15);
+            --white: #ffffff;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(49, 130, 206, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem; /* 减少左右内边距，使内容更贴近边缘 */
+        }
+
+        .container {
+            width: 100%; /* 占满整个宽度 */
+            max-width: none; /* 移除最大宽度限制 */
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem 2rem; /* 调整内边距，适应宽度增加 */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            /* 在大屏幕上添加最大宽度限制，避免内容过宽 */
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1200px; /* 在大屏幕上限制最大宽度 */
+                padding: 4rem 3rem; /* 大屏幕上增加内边距 */
+            }
+        }
+
+        .logo-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.25);
+        }
+
+        .logo-icon i {
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+
+        .title-section {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+            padding: 0 1rem;
+        }
+
+        .stat-card {
+            background: var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            /* 增加与上方统计卡片的间距 */
+            margin: 5rem 0 3rem;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.2rem 2rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.25);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            /* 保持原有布局 */
+            flex-direction: row;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.35);
+            background: linear-gradient(135deg, var(--accent-dark) 0%, #1a365d 100%);
+        }
+
+        .btn i {
+            font-size: 1.4rem;
+        }
+
+        .btn-outline {
+            background: var(--white);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.1);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            border-color: var(--accent-dark);
+            color: var(--accent-dark);
+            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.2);
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .footer strong {
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.05rem;
+            }
+
+            .btn {
+                padding: 1rem 1.5rem;
+                font-size: 1.05rem;
+                flex-wrap: wrap; /* 允许文本换行 */
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 0.5rem;
+            }
+
+            .button-container {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* 小屏幕设备优化 */
+        @media (max-width: 480px) {
+            .btn {
+                flex-direction: row;
+                gap: 0.75rem;
+            }
+
+            .btn i {
+                font-size: 1.2rem;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-dna"></i>
+            </div>
+        </div>
+
+        <div class="title-section">
+            <h1>国家家养动物种质资源库 HPC 平台</h1>
+            <p class="subtitle">
+                The HPC Platform Tutorial of the National Germplasm Centre of Domestic Animal Resources
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">14 台</div>
+                <div class="stat-label">瘦节点</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3 台</div>
+                <div class="stat-label">胖节点</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1 台</div>
+                <div class="stat-label">GPU节点</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3.33 PB</div>
+                <div class="stat-label">存储容量</div>
+            </div>
+        </div>
+
+        <!-- 增加了上方间距的按钮容器 -->
+        <div class="button-container">
+            <a href="tutorial.html" class="btn">
+                <i class="fas fa-book-open"></i>
+                <span>平台使用教程 | Platform Tutorial</span>
+            </a>
+
+            <a href="software_list.html" class="btn btn-outline">
+                <i class="fas fa-server"></i>
+                <span>已安装软件列表 | Installed Software</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <strong>国家家养动物种质资源库 HPC 平台</strong> | 科研专用 | 版本 v1.2.0<br>
+            技术支持：xxx团队 | 邮箱：xxx@xxx
+        </div>
+    </div>
+</body>
+</html>
