@@ -123,6 +123,22 @@
             gap: 0.8rem;
         }
 
+        .tutorial-section h3 {
+            color: var(--accent-dark);
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .tutorial-section h4 {
+            color: var(--text-dark);
+            margin: 1.2rem 0 0.6rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
         .tutorial-section h2 i {
             color: var(--accent-dark);
         }
@@ -135,6 +151,13 @@
         }
 
         .tutorial-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .tutorial-section ol {
             margin-left: 1.5rem;
             margin-bottom: 1rem;
             color: var(--text-light);
@@ -226,6 +249,32 @@
             font-weight: 500;
         }
 
+        .alert.warning {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left: 4px solid #f56565;
+        }
+
+        .alert.warning i {
+            color: #f56565;
+        }
+
+        .alert.warning p {
+            color: #742a2a;
+        }
+
+        .alert.info {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-left: 4px solid #38b2ac;
+        }
+
+        .alert.info i {
+            color: #38b2ac;
+        }
+
+        .alert.info p {
+            color: #234e52;
+        }
+
         .nav-links {
             display: flex;
             justify-content: center;
@@ -279,7 +328,7 @@
 
         /* 目录样式 - 修改为固定小宽度 */
         .toc-container {
-            width: 220px; /* 固定小宽度 */
+            width: 250px; /* 稍微加宽一点以容纳子项 */
             position: sticky;
             top: 2rem;
             height: fit-content;
@@ -310,10 +359,18 @@
         }
 
         .toc-item {
-            margin-bottom: 0.8rem;
-            padding-left: 0.5rem;
-            border-left: 2px solid transparent;
-            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-item.main {
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+
+        .toc-item.sub {
+            margin-left: 1.2rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
         }
 
         .toc-item.active {
@@ -328,8 +385,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 8px;
+            padding: 0.4rem;
+            border-radius: 6px;
             transition: all 0.2s ease;
             font-size: 0.9rem; /* 稍小字号 */
             white-space: nowrap; /* 防止换行 */
@@ -348,7 +405,7 @@
         }
 
         .toc-link i {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             opacity: 0.7;
         }
 
@@ -410,9 +467,32 @@
                 font-size: 1.5rem;
             }
 
+            .tutorial-section h3 {
+                font-size: 1.2rem;
+            }
+
             .code-block {
                 padding: 1rem;
             }
+        }
+
+        /* 链接样式 */
+        a.software-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        a.software-link:hover {
+            color: var(--accent-dark);
+            border-bottom: 1px solid var(--accent-dark);
+        }
+        
+        /* 为h3添加锚点目标 */
+        h3[id] {
+            scroll-margin-top: 80px; /* 为锚点跳转添加偏移，避免被固定目录遮挡 */
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -433,11 +513,11 @@
             </div>
 
             <div class="tutorial-content">
-                <!-- 新增：新用户注册部分 -->
+                <!-- 一、新用户注册部分 -->
                 <div class="tutorial-section" id="section-register">
                     <h2><i class="fas fa-user-plus"></i> 一、新用户注册</h2>
                     
-                    <p><strong>1. 访问登录注册界面</strong></p>
+                    <h3 id="register-1">1. 访问登录注册界面</h3>
                     <p>新用户请访问以下地址进入登录注册界面：</p>
                     
                     <div class="code-block">
@@ -451,7 +531,7 @@
                         <div class="caption">图1：新用户注册登录界面</div>
                     </div>
                     
-                    <p><strong>2. 填写注册信息</strong></p>
+                    <h3 id="register-2">2. 填写注册信息</h3>
                     <p>点击注册按钮后，需要填写以下信息：</p>
                     <ul>
                         <li><strong>用户名：</strong>用于登录平台的唯一标识</li>
@@ -475,18 +555,18 @@
 
                 </div>
 
-                <!-- 修改后的：用户登录部分 -->
+                <!-- 二、用户登录部分 -->
                 <div class="tutorial-section" id="section1">
                     <h2><i class="fas fa-sign-in-alt"></i> 二、用户登录</h2>
                     
-                    <p><strong>1. 访问登录界面</strong></p>
+                    <h3 id="login-1">1. 访问登录界面</h3>
                     <p>用户访问以下地址进入登录界面，输入用户名和密码登录平台：</p>
                     
                     <div class="code-block">
                         <pre><span class="command">访问地址：</span><span class="path">http://10.11.29.20/login</span></pre>
                     </div>
                     
-                    <p><strong>2. 查看用户信息</strong></p>
+                    <h3 id="login-2">2. 查看用户信息</h3>
                     <p>登录成功后，首页界面可以查看当前账号的简略信息，包括账户状态、使用情况等：</p>
                     
                     <div class="image-container">
@@ -494,7 +574,7 @@
                         <div class="caption">图3：用户登录后首页界面，显示账户简略信息</div>
                     </div>
                     
-                    <p><strong>3. 切换到HPC工作台</strong></p>
+                    <h3 id="login-3">3. 切换到HPC工作台</h3>
                     <p>点击页面左上角的9个点（应用菜单），选择切换到HPC工作台：</p>
                     
                     <div class="image-container">
@@ -507,7 +587,7 @@
                         <div class="caption">图5：HPC工作台界面</div>
                     </div>
                     
-                    <p><strong>4. 订阅所需软件</strong></p>
+                    <h3 id="login-4">4. 订阅所需软件</h3>
                     <p>在HPC工作台中，点击"订阅更多"按钮，订阅您需要使用的软件：</p>
                     
                     <div class="image-container">
@@ -521,101 +601,259 @@
                     </div>
                 </div>
 
+                <!-- 三、网页平台提交命令部分 -->
                 <div class="tutorial-section" id="section2">
-                    <h2><i class="fas fa-tasks"></i> 三、提交计算任务</h2>
-                    <p>使用Slurm作业调度系统提交任务。示例：提交一个基因组比对任务。</p>
-
-                    <div class="code-block">
-                        <pre><span class="keyword">#!/bin/bash</span>
-<span class="comment">#SBATCH --job-name=genome_alignment</span>
-<span class="comment">#SBATCH --partition=compute</span>
-<span class="comment">#SBATCH --nodes=1</span>
-<span class="comment">#SBATCH --ntasks-per-node=8</span>
-<span class="comment">#SBATCH --time=12:00:00</span>
-<span class="comment">#SBATCH --output=alignment_%j.out</span>
-
-<span class="command">module</span> <span class="keyword">load</span> bwa/0.7.17
-<span class="command">module</span> <span class="keyword">load</span> samtools/1.14
-
-<span class="command">bwa</span> <span class="keyword">mem</span> -t <span class="path">8</span> reference.fasta sample_R1.fastq.gz sample_R2.fastq.gz | \
-<span class="command">samtools</span> <span class="keyword">sort</span> -o aligned.bam -</pre>
+                    <h2><i class="fas fa-terminal"></i> 三、网页平台提交命令</h2>
+                    
+                    <h3 id="web-submit-1">1. 订阅科学计算模块</h3>
+                    <p>首次在网页平台提交计算命令前，需要先订阅科学计算模块。请确保您已完成第二部分的第4步"订阅所需软件"。</p>
+                    
+                    <div class="alert">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p><strong>重要：</strong> 如果没有订阅科学计算模块，将无法通过网页平台提交计算任务。</p>
                     </div>
-
-                    <p>提交任务命令：</p>
+                    
+                    <h3 id="web-submit-2">2. 提交计算命令</h3>
+                    <p>按照以下步骤在网页平台提交计算命令：</p>
+                    
+                    <ul>
+                        <li><strong>回到HPC工作台：</strong>确保您在HPC工作台界面</li>
+                        <li><strong>点击SBASE图标：</strong>在工作台中找到并点击SBASE应用图标</li>
+                        <li><strong>选择工作目录：</strong>选择工作目录为用户文件目录</li>
+                        <li><strong>填写具体命令：</strong>在命令输入框中填写要执行的命令</li>
+                    </ul>
+                    
+                    <p><strong>命令示例：</strong></p>
+                    
                     <div class="code-block">
-                        <pre><span class="command">sbatch</span> alignment_job.sh</pre>
-                    </div>
+                        <pre><span class="comment"># 简单测试命令</span>
+<span class="command">sleep</span> 50
 
+<span class="comment"># 具体软件命令（使用绝对路径）</span>
+<span class="path">/var/ty-root/users/software/miniconda3/envs/common/bin/plink</span> <span class="keyword">--help</span></pre>
+                    </div>
+                    
+                    <h3 id="web-submit-3">3. 配置计算资源</h3>
+                    <p>填写命令后，还需要配置以下计算资源参数：</p>
+                    
+                    <ul>
+                        <li><strong>选择分区：</strong>选择适合您任务的计算分区</li>
+                        <li><strong>所需CPU数量：</strong>指定任务需要的CPU核心数</li>
+                        <li><strong>所需内存数量：</strong>指定任务需要的内存大小</li>
+                        <li><strong>所需运行时限：</strong>设置任务的预计运行时间</li>
+                    </ul>
+                    
+                    <h3 id="web-submit-4">4. 提交任务</h3>
+                    <p>所有参数配置完成后，点击"提交"按钮提交计算任务：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/平台计算01.png" alt="网页平台提交命令界面">
+                        <div class="caption">图7：网页平台提交命令界面 - 填写命令和配置资源参数</div>
+                    </div>
+                    
                     <div class="alert">
                         <i class="fas fa-lightbulb"></i>
-                        <p><strong>提示：</strong> 任务提交后，系统会返回一个作业ID，用于后续监控和管理。</p>
+                        <p><strong>提示：</strong> 任务提交后，系统会返回一个作业ID。您可以在作业监控页面查看任务状态和输出结果。</p>
                     </div>
                 </div>
 
+                <!-- 四、命令行提交命令部分 -->
                 <div class="tutorial-section" id="section3">
-                    <h2><i class="fas fa-database"></i> 四、数据管理</h2>
-                    <p>平台提供共享存储系统，请遵循以下数据管理规范：</p>
-
+                    <h2><i class="fas fa-terminal"></i> 四、命令行提交命令</h2>
+                    
+                    <h3 id="cli-1">1. SSH登录集群</h3>
+                    <p>使用SSH客户端软件连接到HPC集群：</p>
+                    
                     <div class="code-block">
-                        <pre><span class="comment"># 查看存储使用情况</span>
-<span class="command">df</span> -h
+                        <pre><span class="comment"># SSH连接命令</span>
+<span class="command">ssh</span> <span class="path">your_username</span>@<span class="path">10.11.29.21</span> -p <span class="path">22</span>
 
-<span class="comment"># 查看目录大小</span>
-<span class="command">du</span> -sh /data/germplasm/results/your_project/
-
-<span class="comment"># 清理临时文件</span>
-<span class="command">rm</span> -rf /scratch/$USER/*</pre>
+<span class="comment"># 或者使用简化的形式</span>
+<span class="command">ssh</span> -p <span class="path">22</span> <span class="path">your_username@10.11.29.21</span></pre>
                     </div>
-
-                    <p><strong>目录结构：</strong></p>
+                    
+                    <p>连接参数说明：</p>
                     <ul>
-                        <li><code>/data/germplasm/raw/</code> - 原始数据存储</li>
-                        <li><code>/data/germplasm/results/</code> - 分析结果存储</li>
-                        <li><code>/scratch/$USER/</code> - 临时文件存储</li>
+                        <li><strong>IP地址：</strong>10.11.29.21</li>
+                        <li><strong>端口：</strong>22（默认SSH端口）</li>
+                        <li><strong>用户名：</strong>您在平台注册的用户名</li>
                     </ul>
-                </div>
-
-                <div class="tutorial-section" id="section4">
-                    <h2><i class="fas fa-cogs"></i> 五、软件环境管理</h2>
-                    <p>使用环境模块系统加载所需软件：</p>
-
+                    
+                    <h3 id="cli-2">2. 查看已安装软件</h3>
+                    <p>登录成功后，您可以在命令行查看和使用已安装的软件。</p>
+                    <p>已安装的软件及调用方法请查看：<a href="software_list.html" class="software-link">已安装软件列表</a>（点击查看详情）</p>
+                    
+                    <h3 id="cli-3">3. 使用sbatch提交命令</h3>
+                    <p>在命令行使用sbatch命令提交计算任务：</p>
+                    
                     <div class="code-block">
-                        <pre><span class="comment"># 查看可用软件模块</span>
-<span class="command">module</span> avail
+                        <pre><span class="comment"># 示例1：简单测试命令</span>
+<span class="command">sbatch</span> -J test -p x86-shou -c 2 --mem=5G --time=0 -o test_%j.out -e test_%j.err --wrap="sleep 50"
 
-<span class="comment"># 加载特定软件</span>
-<span class="command">module</span> <span class="keyword">load</span> gcc/9.3.0
-<span class="command">module</span> <span class="keyword">load</span> python/3.8.6
-
-<span class="comment"># 查看已加载模块</span>
-<span class="command">module</span> list
-
-<span class="comment"># 卸载模块</span>
-<span class="command">module</span> <span class="keyword">unload</span> python</pre>
+<span class="comment"># 示例2：具体软件命令</span>
+<span class="command">sbatch</span> -J test -p x86-shou -c 2 --mem=5G --time=0 -o test_%j.out -e test_%j.err --wrap="/var/ty-root/users/software/miniconda3/envs/common/bin/plink --help"</pre>
                     </div>
-                </div>
-
-                <div class="tutorial-section" id="section5">
-                    <h2><i class="fas fa-tachometer-alt"></i> 六、作业监控与管理</h2>
-                    <p>使用Slurm命令监控和管理作业：</p>
-
-                    <div class="code-block">
-                        <pre><span class="comment"># 查看所有作业</span>
-<span class="command">squeue</span> -u $USER
-
-<span class="comment"># 查看特定作业详情</span>
-<span class="command">scontrol</span> show job <span class="path">作业ID</span>
-
-<span class="comment"># 取消作业</span>
-<span class="command">scancel</span> <span class="path">作业ID</span>
-
-<span class="comment"># 查看作业历史</span>
-<span class="command">sacct</span> -u $USER --format=JobID,JobName,Partition,State,Elapsed</pre>
-                    </div>
-
+                    
+                    <p><strong>参数说明：</strong></p>
+                    <ul>
+                        <li><strong>-J：</strong>任务名字（job name）</li>
+                        <li><strong>-p：</strong>选择计算分区（partition）</li>
+                        <li><strong>-c：</strong>选择CPU核心数</li>
+                        <li><strong>--mem：</strong>选择内存大小</li>
+                        <li><strong>--time：</strong>选择所需运行时限（0表示无限制）</li>
+                        <li><strong>-o：</strong>软件正常输出结果文件</li>
+                        <li><strong>-e：</strong>报错信息输出文件</li>
+                        <li><strong>--wrap：</strong>需要运行的生信软件命令</li>
+                    </ul>
+                    
                     <div class="image-container">
-                        <img src="https://via.placeholder.com/800x400/2c5282/ffffff?text=Slurm+Job+Monitoring" alt="作业监控">
-                        <div class="caption">图7：使用squeue命令监控作业状态</div>
+                        <img src="fig/命令行计算01.png" alt="命令行提交命令示例">
+                        <div class="caption">图8：命令行提交命令界面示例</div>
+                    </div>
+                    
+                    <div class="alert warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p><strong>重要警告：</strong> 在命令行所有软件均需使用sbatch提交到计算节点运行，不允许在登录节点直接运行命令！一经发现，将会直接kill掉运行的命令！</p>
+                    </div>
+                    
+                    <h3 id="cli-4">4. 提交作业脚本文件</h3>
+                    <p>正在编写脚本中......</p>
+                    <div class="code-block">
+                        <pre><span class="command">正在编写脚本中</span> <span class="path">......</span></pre>
+                    </div>
+                </div>
+
+                <!-- 五、命令运行情况查看部分 -->
+                <div class="tutorial-section" id="section4">
+                    <h2><i class="fas fa-eye"></i> 五、命令运行情况查看</h2>
+                    
+                    <h3 id="monitor-1">1. 网页端查看运行情况</h3>
+                    <p>对于第三部分（网页平台提交命令）和第四部分（命令行提交命令）提交的命令，均可以回到网页端查看运行情况。</p>
+                    
+                    <p>在HPC工作台中，您可以查看所有已提交作业的状态、运行时间、资源使用情况等信息：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/命令运行情况查看01.png" alt="网页端查看命令运行情况">
+                        <div class="caption">图9：网页端查看命令运行情况</div>
+                    </div>
+                    
+                    <h3 id="monitor-2">2. 查看作业详细信息</h3>
+                    <p>点击具体的作业ID或作业名称，可以查看该作业的详细信息：</p>
+                    
+                    <ul>
+                        <li><strong>作业基本信息：</strong>作业ID、名称、状态、提交时间、运行时间等</li>
+                        <li><strong>资源使用情况：</strong>CPU使用率、内存使用量、运行节点等</li>
+                        <li><strong>标准输出数据：</strong>查看作业的标准输出内容</li>
+                        <li><strong>错误输出信息：</strong>查看作业的错误日志和警告信息</li>
+                    </ul>
+                    
+                    <div class="image-container">
+                        <img src="fig/命令运行情况查看02.png" alt="作业详细信息查看">
+                        <div class="caption">图10：点击具体作业查看详细信息</div>
+                    </div>
+                    
+                    <div class="alert info">
+                        <i class="fas fa-info-circle"></i>
+                        <p><strong>提示：</strong> 您可以根据作业的输出信息和错误日志来调试程序，优化计算参数，提高计算效率。</p>
+                    </div>
+                </div>
+
+                <!-- 六、特殊软件使用教程部分 -->
+                <div class="tutorial-section" id="section5">
+                    <h2><i class="fas fa-laptop-code"></i> 六、特殊软件使用教程</h2>
+                    
+                    <h3 id="special-1">1. 已安装软件列表</h3>
+                    <p>已安装的软件及调用方法请查看：<a href="software_list.html" class="software-link">已安装软件列表</a>（点击查看详情）</p>
+                    
+                    <h3 id="special-2">2. JupyterLab使用教程</h3>
+                    
+                    <h4>（1）订阅JupyterLab</h4>
+                    <p>在应用中心订阅JupyterLab服务。</p>
+                    
+                    <h4>（2）配置并提交JupyterLab作业</h4>
+                    <p>在HPC工作台点击JupyterLab应用图标，配置以下参数：</p>
+                    <ul>
+                        <li><strong>选择分区：</strong>选择适合的计算分区</li>
+                        <li><strong>CPU数量：</strong>指定需要的CPU核心数</li>
+                        <li><strong>内存数量：</strong>指定需要的内存大小</li>
+                        <li><strong>运行时限：</strong>设置JupyterLab的运行时间</li>
+                    </ul>
+                    <p>所有参数配置完成后，点击提交按钮：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/JupyterLab软件01.png" alt="JupyterLab配置界面">
+                        <div class="caption">图11：JupyterLab配置和提交界面</div>
+                    </div>
+                    
+                    <h4>（3）启动并访问JupyterLab</h4>
+                    <p>等待3-5分钟，在HPC工作台的"我的应用"中即可看到JupyterLab应用，点击即可进入：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/JupyterLab软件02.png" alt="JupyterLab应用界面">
+                        <div class="caption">图12：在"我的应用"中查看和访问JupyterLab</div>
+                    </div>
+                    
+                    <h3 id="special-3">3. Rstudio-server使用教程</h3>
+                    
+                    <h4>（1）订阅Rstudio-server</h4>
+                    <p>在应用中心订阅Rstudio-server服务。</p>
+                    
+                    <h4>（2）配置Rstudio-server作业</h4>
+                    <p>在HPC工作台点击Rstudio-server应用图标，需要配置以下参数：</p>
+                    
+                    <p><strong>选择R路径：</strong></p>
+                    <ul>
+                        <li>可以使用默认R路径</li>
+                        <li>也可以选择自己的R路径</li>
+                    </ul>
+                    
+                    <p><strong>如何获取自己的R路径：</strong></p>
+                    <ol>
+                        <li>在命令行中使用<code>which R</code>命令找到R的绝对路径</li>
+                        <li>例如：<code>/var/ty-root/users/TY_SHARED_DIR/share/software/miniconda3/envs/common/bin/R</code></li>
+                        <li>在选择R路径时，需要将<strong>bin</strong>替换为<strong>lib</strong></li>
+                        <li>例如：<code>/var/ty-root/users/TY_SHARED_DIR/share/software/miniconda3/envs/common/lib/R</code></li>
+                    </ol>
+                    
+                    <p><strong>其他配置参数：</strong></p>
+                    <ul>
+                        <li><strong>登录密码：</strong>设置Rstudio-server的登录密码</li>
+                        <li><strong>选择分区：</strong>选择适合的计算分区</li>
+                        <li><strong>CPU数量：</strong>指定需要的CPU核心数</li>
+                        <li><strong>内存数量：</strong>指定需要的内存大小</li>
+                        <li><strong>运行时限：</strong>设置Rstudio-server的运行时间</li>
+                        <li><strong>作业副本数：</strong>设置作业副本数量（默认为1）</li>
+                    </ul>
+                    
+                    <p>所有参数配置完成后，点击提交按钮：</p>
+                    
+                    <div class="image-container">
+                        <img src="fig/Rstudio-server软件01.png" alt="Rstudio-server配置界面">
+                        <div class="caption">图13：Rstudio-server配置界面</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <img src="fig/Rstudio-server软件02.png" alt="Rstudio-server路径选择">
+                        <div class="caption">图14：Rstudio-server路径选择和参数配置</div>
+                    </div>
+                    
+                    <h4>（3）启动并登录Rstudio-server</h4>
+                    <p>等待3-5分钟，在HPC工作台的"我的应用"中即可看到Rstudio-server应用，点击进入后：</p>
+                    
+                    <ol>
+                        <li>输入当前用户账号</li>
+                        <li>输入在配置时填写的登录密码</li>
+                        <li>点击登录即可进入Rstudio-server工作环境</li>
+                    </ol>
+                    
+                    <div class="image-container">
+                        <img src="fig/Rstudio-server软件03.png" alt="Rstudio-server登录界面">
+                        <div class="caption">图15：Rstudio-server登录界面</div>
+                    </div>
+                    
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>提示：</strong> JupyterLab和Rstudio-server都是交互式开发环境，适用于数据分析和可视化工作。请根据您的实际需求选择合适的工具。</p>
                     </div>
                 </div>
             </div>
@@ -641,34 +879,134 @@
                 <i class="fas fa-list"></i> 快速导航
             </div>
             <ul class="toc-list">
-                <li class="toc-item" data-target="section-register">
+                <li class="toc-item main" data-target="section-register">
                     <a href="#section-register" class="toc-link">
-                        <i class="fas fa-user-plus"></i> 新用户注册
+                        <i class="fas fa-user-plus"></i> 一、新用户注册
                     </a>
                 </li>
-                <li class="toc-item" data-target="section1">
+                <li class="toc-item sub" data-target="register-1">
+                    <a href="#register-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. 访问登录注册界面
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="register-2">
+                    <a href="#register-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. 填写注册信息
+                    </a>
+                </li>
+                
+                <li class="toc-item main" data-target="section1">
                     <a href="#section1" class="toc-link">
-                        <i class="fas fa-sign-in-alt"></i> 用户登录
+                        <i class="fas fa-sign-in-alt"></i> 二、用户登录
                     </a>
                 </li>
-                <li class="toc-item" data-target="section2">
+                <li class="toc-item sub" data-target="login-1">
+                    <a href="#login-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. 访问登录界面
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="login-2">
+                    <a href="#login-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. 查看用户信息
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="login-3">
+                    <a href="#login-3" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 3. 切换到HPC工作台
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="login-4">
+                    <a href="#login-4" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 4. 订阅所需软件
+                    </a>
+                </li>
+                
+                <li class="toc-item main" data-target="section2">
                     <a href="#section2" class="toc-link">
-                        <i class="fas fa-tasks"></i> 提交计算任务
+                        <i class="fas fa-terminal"></i> 三、网页平台提交命令
                     </a>
                 </li>
-                <li class="toc-item" data-target="section3">
+                <li class="toc-item sub" data-target="web-submit-1">
+                    <a href="#web-submit-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. 订阅科学计算模块
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="web-submit-2">
+                    <a href="#web-submit-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. 提交计算命令
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="web-submit-3">
+                    <a href="#web-submit-3" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 3. 配置计算资源
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="web-submit-4">
+                    <a href="#web-submit-4" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 4. 提交任务
+                    </a>
+                </li>
+                
+                <li class="toc-item main" data-target="section3">
                     <a href="#section3" class="toc-link">
-                        <i class="fas fa-database"></i> 数据管理
+                        <i class="fas fa-terminal"></i> 四、命令行提交命令
                     </a>
                 </li>
-                <li class="toc-item" data-target="section4">
+                <li class="toc-item sub" data-target="cli-1">
+                    <a href="#cli-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. SSH登录集群
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="cli-2">
+                    <a href="#cli-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. 查看已安装软件
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="cli-3">
+                    <a href="#cli-3" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 3. 使用sbatch提交命令
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="cli-4">
+                    <a href="#cli-4" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 4. 提交作业脚本文件
+                    </a>
+                </li>
+                
+                <li class="toc-item main" data-target="section4">
                     <a href="#section4" class="toc-link">
-                        <i class="fas fa-cogs"></i> 软件环境管理
+                        <i class="fas fa-eye"></i> 五、命令运行情况查看
                     </a>
                 </li>
-                <li class="toc-item" data-target="section5">
+                <li class="toc-item sub" data-target="monitor-1">
+                    <a href="#monitor-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. 网页端查看运行情况
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="monitor-2">
+                    <a href="#monitor-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. 查看作业详细信息
+                    </a>
+                </li>
+                
+                <li class="toc-item main" data-target="section5">
                     <a href="#section5" class="toc-link">
-                        <i class="fas fa-tachometer-alt"></i> 作业监控与管理
+                        <i class="fas fa-laptop-code"></i> 六、特殊软件使用教程
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="special-1">
+                    <a href="#special-1" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 1. 已安装软件列表
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="special-2">
+                    <a href="#special-2" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 2. JupyterLab使用
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="special-3">
+                    <a href="#special-3" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 3. Rstudio-server使用
                     </a>
                 </li>
             </ul>
@@ -684,7 +1022,7 @@
         // 目录功能实现
         document.addEventListener('DOMContentLoaded', function() {
             const tocItems = document.querySelectorAll('.toc-item');
-            const sections = document.querySelectorAll('.tutorial-section');
+            const sections = document.querySelectorAll('.tutorial-section, h3[id]');
             const backToTop = document.getElementById('back-to-top');
 
             // 高亮当前章节
@@ -706,6 +1044,14 @@
                     item.classList.remove('active');
                     if (item.getAttribute('data-target') === currentSection) {
                         item.classList.add('active');
+                        
+                        // 如果子项被激活，也激活对应的主项
+                        if (item.classList.contains('sub')) {
+                            const mainItem = item.closest('.toc-list').querySelector(`.toc-item.main[data-target="${currentSection.split('-')[0]}"]`);
+                            if (mainItem) {
+                                mainItem.classList.add('active');
+                            }
+                        }
                     }
                 });
             }
@@ -715,7 +1061,7 @@
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 20,
+                        top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
                 }
@@ -726,7 +1072,9 @@
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('data-target');
-                    smoothScrollTo(targetId);
+                    if (targetId) {
+                        smoothScrollTo(targetId);
+                    }
                 });
             });
 
