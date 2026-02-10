@@ -700,6 +700,22 @@
                         <p><strong>重要提示：</strong> 提交注册信息后，需要等待管理员审核。审核通过后，您才能使用账户登录平台。</p>
                     </div>
 
+					<h3 id="register-3">3. 资源申请</h3>
+					<p>登录平台后，您可根据计算任务需求申请HPC资源。当前平台提供以下计算分区：</p>
+					<ul>
+						<li><strong>x86-shou分区：</strong>14台（CPU：64核/台，共计896核）（内存：900GB/台，共计12.3TB）</li>
+						<li><strong>x86-pang分区：</strong>3台（CPU：128核/台，共计384核）（内存：2150GB/台，共计6.3TB）</li>
+						<li><strong>x86-gpu分区：</strong>1台（CPU：192核/台）（内存：700GB/台）（GPU：8张L20卡）</li>
+					</ul>
+
+					<p>请根据任务特性选择合适分区，填写所需核心数、内存、运行时长等参数后提交申请：</p>
+
+
+					<div class="alert">
+						<i class="fas fa-exclamation-triangle"></i>
+						<p><strong>关键限制说明：</strong> 单一计算任务（单条作业命令）申请的资源量 <strong>不得超过所选分区单台设备的物理上限</strong>。例如：若任务申请4TB内存，因所有分区单机内存均低于此值（最高2150GB），作业将无法调度执行。请务必根据单机配置合理规划任务资源需求。</p>
+					</div>
+
                 </div>
 
                 <!-- 二、用户登录部分 -->
@@ -1208,6 +1224,11 @@ plot_components.plot(
                 <li class="toc-item sub" data-target="register-2">
                     <a href="#register-2" class="toc-link">
                         <i class="fas fa-chevron-right"></i> 2. 填写注册信息
+                    </a>
+                </li>
+                <li class="toc-item sub" data-target="register-3">
+                    <a href="#register-3" class="toc-link">
+                        <i class="fas fa-chevron-right"></i> 3. 资源申请
                     </a>
                 </li>
                 
